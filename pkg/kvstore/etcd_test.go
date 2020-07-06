@@ -1642,3 +1642,23 @@ func TestGetSvcNamespace(t *testing.T) {
 		})
 	}
 }
+func TestShuffleEndpoints(t *testing.T) {
+	s1 := []string{"1", "2", "3"}
+	s2 := make([]string, len(s1))
+	copy(s2, s1)
+	shuffleEndpoints(s2)
+
+	if len(s1) != len(s2) {
+		t.Errorf("Shuffle() resulted in slices of inequal length")
+	}
+
+	same := 0
+	for i := range s1 {
+		if s1[i] == s2[i] {
+			same++
+		}
+	}
+	if same == len(s1) {
+		t.Errorf("Shuffle() did not modify s2")
+	}
+}

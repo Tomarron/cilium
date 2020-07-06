@@ -34,3 +34,28 @@ func TestIntn(t *testing.T) {
 		}
 	}
 }
+
+func TestShuffle(t *testing.T) {
+	r0 := NewSafeRand(1)
+
+	s1 := []string{"1", "2", "3"}
+	s2 := make([]string, len(s1))
+	copy(s2, s1)
+	r0.Shuffle(len(s2), func(i, j int) {
+		s2[i], s2[j] = s2[j], s2[i]
+	})
+
+	if len(s1) != len(s2) {
+		t.Errorf("Shuffle() resulted in slices of inequal length")
+	}
+
+	same := 0
+	for i := range s1 {
+		if s1[i] == s2[i] {
+			same++
+		}
+	}
+	if same == len(s1) {
+		t.Errorf("Shuffle() did not modify s2")
+	}
+}
