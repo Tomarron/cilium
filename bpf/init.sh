@@ -611,6 +611,8 @@ if [ "$HOSTLB" = "true" ]; then
 		bpf_load_cgroups "$COPTS" bpf_sock.c bpf_sock.o sockaddr connect6 $CALLS_MAP $CGROUP_ROOT $BPFFS_ROOT
 		if [ "$HOSTLB_PEER" = "true" ]; then
 			bpf_load_cgroups "$COPTS" bpf_sock.c bpf_sock.o sockaddr getpeername6 $CALLS_MAP $CGROUP_ROOT $BPFFS_ROOT
+		else
+			bpf_clear_cgroups $CGROUP_ROOT getpeername6
 		fi
 		if [ "$NODE_PORT" = "true" ] && [ "$NODE_PORT_BIND" = "true" ]; then
 			bpf_load_cgroups "$COPTS" bpf_sock.c bpf_sock.o sock post_bind6 $CALLS_MAP $CGROUP_ROOT $BPFFS_ROOT
@@ -629,6 +631,8 @@ if [ "$HOSTLB" = "true" ]; then
 		bpf_load_cgroups "$COPTS" bpf_sock.c bpf_sock.o sockaddr connect4 $CALLS_MAP $CGROUP_ROOT $BPFFS_ROOT
 		if [ "$HOSTLB_PEER" = "true" ]; then
 			bpf_load_cgroups "$COPTS" bpf_sock.c bpf_sock.o sockaddr getpeername4 $CALLS_MAP $CGROUP_ROOT $BPFFS_ROOT
+		else
+			bpf_clear_cgroups $CGROUP_ROOT getpeername4
 		fi
 		if [ "$NODE_PORT" = "true" ] && [ "$NODE_PORT_BIND" = "true" ]; then
 			bpf_load_cgroups "$COPTS" bpf_sock.c bpf_sock.o sock post_bind4 $CALLS_MAP $CGROUP_ROOT $BPFFS_ROOT
@@ -652,6 +656,8 @@ else
 	bpf_clear_cgroups $CGROUP_ROOT sendmsg6
 	bpf_clear_cgroups $CGROUP_ROOT recvmsg4
 	bpf_clear_cgroups $CGROUP_ROOT recvmsg6
+	bpf_clear_cgroups $CGROUP_ROOT getpeername4
+	bpf_clear_cgroups $CGROUP_ROOT getpeername6
 fi
 
 if [ "$IPSEC" == "true" ]; then
